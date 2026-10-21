@@ -1,5 +1,6 @@
 export const instant = false;
 
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import CodigoQR from "./CodigoQR";
@@ -8,6 +9,17 @@ import AccionesTarjeta from "./AccionesTarjeta";
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  return {
+    title: "Tarjeta digital",
+    manifest: `/tarjeta/${slug}/manifest.webmanifest`,
+  };
+}
 
 export default async function TarjetaPage({ params }: Props) {
   const { slug } = await params;
@@ -163,7 +175,7 @@ export default async function TarjetaPage({ params }: Props) {
             </p>
           </div>
 
-            <AccionesTarjeta />
+          <AccionesTarjeta />
 
           <p className="mt-5 text-xs text-slate-400">
             Tarjeta de contacto digital
