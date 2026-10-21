@@ -3,6 +3,7 @@ export const instant = false;
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import CodigoQR from "./CodigoQR";
+import AccionesTarjeta from "./AccionesTarjeta";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -161,6 +162,8 @@ export default async function TarjetaPage({ params }: Props) {
               Código QR personal del vendedor
             </p>
           </div>
+
+            <AccionesTarjeta />
 
           <p className="mt-5 text-xs text-slate-400">
             Tarjeta de contacto digital
