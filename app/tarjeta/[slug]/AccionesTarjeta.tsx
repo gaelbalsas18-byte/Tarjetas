@@ -44,7 +44,7 @@ export default function AccionesTarjeta() {
       <button
         type="button"
         onClick={compartirTarjeta}
-        className="w-full rounded-xl bg-slate-900 px-4 py-3 font-semibold text-white transition hover:bg-slate-700"
+        className="flex min-h-9 items-center justify-center border border-blue-600 px-1 text-center text-[10px] font-medium text-blue-700 transition hover:bg-blue-50 sm:text-xs"
       >
         Compartir tarjeta
       </button>
@@ -55,7 +55,7 @@ export default function AccionesTarjeta() {
           setMostrarAyuda(!mostrarAyuda);
           setMensaje("");
         }}
-        className="w-full rounded-xl border-2 border-slate-300 px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+        className="flex min-h-9 items-center justify-center border border-blue-600 px-1 text-center text-[10px] font-medium text-blue-700 transition hover:bg-blue-50 sm:text-xs"
       >
         Guardar en pantalla de inicio
       </button>
@@ -89,14 +89,6 @@ export default function AccionesTarjeta() {
             Añade esta tarjeta desde su propia página para conservar el
             enlace del vendedor.
           </p>
-
-          <button
-            type="button"
-            onClick={copiarEnlace}
-            className="mt-4 w-full rounded-lg border border-slate-300 px-3 py-2 font-semibold hover:bg-white"
-          >
-            Copiar enlace de esta tarjeta
-          </button>
         </div>
       )}
 
