@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import CodigoQR from "./CodigoQR";
 import AccionesTarjeta from "./AccionesTarjeta";
+import TarjetaDosCaras from "./TarjetaDosCaras";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -113,23 +114,21 @@ export default async function TarjetaPage({ params }: Props) {
     : "#163B65";
 
   return (
-    <main className="min-h-screen bg-white px-3 py-5 sm:px-5 sm:py-8">
-      <section className="mx-auto max-w-md overflow-hidden rounded-2xl bg-white shadow-sm">
-
+    <TarjetaDosCaras>
+      <section className="overflow-hidden rounded-2xl bg-white">
         {/* Encabezado y datos del vendedor */}
         <div className="px-5 pt-5">
           <div className="grid grid-cols-[76px_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-5">
-
             {vendedor.photoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={vendedor.photoUrl}
                 alt={`Fotografía de ${vendedor.displayName}`}
-                className="flex h-[76px] w-[76px] items-center justify-center rounded-xl text-2xl font-bold text-white sm:h-[110px] sm:w-[120px]"
+                className="h-[76px] w-[76px] rounded-xl object-cover shadow-sm sm:h-[110px] sm:w-[120px]"
               />
             ) : (
               <div
-                className="flex h-[76px] w-[76px] items-center justify-center rounded-xl text-2xl font-bold text-white sm:h-[88px] sm:w-[88px]"
+                className="flex h-[76px] w-[76px] items-center justify-center rounded-xl text-2xl font-bold text-white sm:h-[110px] sm:w-[120px]"
                 style={{ backgroundColor: color }}
               >
                 {iniciales}
@@ -162,7 +161,7 @@ export default async function TarjetaPage({ params }: Props) {
 
         {/* Iconos de contacto */}
         <div className="mt-6 flex items-center justify-center gap-9">
-          {telefono ? (
+          {telefono && (
             <a
               href={`tel:${telefono}`}
               aria-label="Llamar al vendedor"
@@ -171,9 +170,9 @@ export default async function TarjetaPage({ params }: Props) {
             >
               <IconoContacto tipo="telefono" />
             </a>
-          ) : null}
+          )}
 
-          {whatsapp ? (
+          {whatsapp && (
             <a
               href={`https://wa.me/${whatsapp}`}
               target="_blank"
@@ -184,9 +183,9 @@ export default async function TarjetaPage({ params }: Props) {
             >
               <IconoContacto tipo="whatsapp" />
             </a>
-          ) : null}
+          )}
 
-          {vendedor.email ? (
+          {vendedor.email && (
             <a
               href={`mailto:${vendedor.email}`}
               aria-label="Enviar correo electrónico"
@@ -195,10 +194,10 @@ export default async function TarjetaPage({ params }: Props) {
             >
               <IconoContacto tipo="correo" />
             </a>
-          ) : null}
+          )}
         </div>
 
-        {/* Guardar contacto, compartir e inicio */}
+        {/* Guardar contacto y acciones existentes */}
         <div className="px-3 pt-5">
           <a
             href={`/api/tarjeta/${encodeURIComponent(slug)}/contacto`}
@@ -212,12 +211,10 @@ export default async function TarjetaPage({ params }: Props) {
 
         {/* Código QR */}
         <div className="px-4 pb-5 pt-4 text-center">
-          <div className="mx-auto flex w-fit items-center justify-center">
-            <CodigoQR color={color} />
-          </div>
+          <CodigoQR color={color} />
         </div>
 
-        {/* Franja inferior de colores y nuevo logotipo */}
+        {/* Franja inferior y logotipo */}
         <footer className="mt-1">
           <div className="h-2 bg-cyan-200" />
           <div className="h-2 bg-sky-400" />
@@ -227,7 +224,6 @@ export default async function TarjetaPage({ params }: Props) {
             <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
 
             <div className="relative">
-              {/* Coloca tu nuevo archivo en public/Balsas-footer.png */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/BalsasTrans.png"
@@ -238,6 +234,6 @@ export default async function TarjetaPage({ params }: Props) {
           </div>
         </footer>
       </section>
-    </main>
+    </TarjetaDosCaras>
   );
 }

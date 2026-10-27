@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -6,9 +5,8 @@ import { useState } from "react";
 export default function AccionesTarjeta() {
   const [mensaje, setMensaje] = useState("");
   const [mostrarAyuda, setMostrarAyuda] = useState(false);
-
   async function compartirTarjeta() {
-    const url = window.location.href;
+  const url = window.location.href;
 
     try {
       if (navigator.share) {
@@ -25,19 +23,18 @@ export default function AccionesTarjeta() {
       if (error instanceof Error && error.name === "AbortError") {
         return;
       }
-
       setMensaje("No se pudo compartir. Copia el enlace desde el navegador.");
     }
   }
 
   async function copiarEnlace() {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setMensaje("Enlace copiado correctamente.");
-    } catch {
-      setMensaje("Abre el menú del navegador para copiar el enlace.");
+        try {
+        await navigator.clipboard.writeText(window.location.href);
+        setMensaje("Enlace copiado correctamente.");
+        } catch {
+        setMensaje("Abre el menú del navegador para copiar el enlace.");
+        }
     }
-  }
 
   return (
     <div className="mt-6 space-y-3">
@@ -66,7 +63,7 @@ export default function AccionesTarjeta() {
             Guarda esta tarjeta en tu teléfono
           </h3>
 
-          <p className="mt-3 font-semibold">iPhone (Safari)</p>
+        <p className="mt-3 font-semibold">iPhone (Safari)</p>
           <p className="mt-1">
             1. Pulsa el botón Compartir del navegador.
             <br />
@@ -75,7 +72,7 @@ export default function AccionesTarjeta() {
             3. Pulsa “Añadir”.
           </p>
 
-          <p className="mt-3 font-semibold">Android (Chrome)</p>
+        <p className="mt-3 font-semibold">Android (Chrome)</p>
           <p className="mt-1">
             1. Abre el menú de los tres puntos del navegador.
             <br />
@@ -84,7 +81,7 @@ export default function AccionesTarjeta() {
             3. Confirma la acción.
           </p>
 
-          <p className="mt-3 text-xs text-slate-500">
+        <p className="mt-3 text-xs text-slate-500">
             Las opciones pueden variar según el navegador y el teléfono.
             Añade esta tarjeta desde su propia página para conservar el
             enlace del vendedor.
