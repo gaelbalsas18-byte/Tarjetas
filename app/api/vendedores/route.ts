@@ -10,6 +10,78 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+
+export async function GET() {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("tarjetas_session")?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { error: "Debes iniciar sesión." },
+        { status: 401 }
+      );
+    }
+
+    const session = await verificarTokenSesion(token);
+
+    if (!session?.sub) {
+      return NextResponse.json(
+        { error: "Tu sesión no es válida." },
+        { status: 401 }
+      );
+    }
+
+    const admin = await prisma.user.findUnique({
+      where: { id: session.sub },
+      select: {
+        role: true,
+        isActive: true,
+        companyId: true,
+      },
+    });
+
+    if (!admin || !admin.isActive || admin.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "No tienes permiso para consultar vendedores." },
+        { status: 403 }
+      );
+    }
+
+    const vendedores = await prisma.seller.findMany({
+      where: {
+        companyId: admin.companyId,
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        displayName: true,
+        jobTitle: true,
+        department: true,
+        email: true,
+        phone: true,
+        whatsapp: true,
+        photoUrl: true,
+        slug: true,
+        isActive: true,
+      },
+      orderBy: {
+        displayName: "asc",
+      },
+    });
+
+    return NextResponse.json({ vendedores });
+  } catch (error) {
+    console.error("Error al consultar vendedores:", error);
+
+    return NextResponse.json(
+      { error: "No se pudieron consultar los vendedores." },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: Request) {
   try {
     // 1. Verificar la sesión
@@ -51,7 +123,6 @@ export async function POST(request: Request) {
 
     // 3. Recibir el formulario, incluida la fotografía
     const formData = await request.formData();
-
     const obtenerTexto = (campo: string) => {
       const valor = formData.get(campo);
       return typeof valor === "string" ? valor.trim() : "";
@@ -126,7 +197,6 @@ export async function POST(request: Request) {
       const bytes = await photo.arrayBuffer();
       const base64 = Buffer.from(bytes).toString("base64");
       const dataUri = `data:${photo.type};base64,${base64}`;
-
       const subida = await cloudinary.uploader.upload(dataUri, {
         folder: "tarjetas/vendedores",
         resource_type: "image",
