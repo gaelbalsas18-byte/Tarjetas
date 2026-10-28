@@ -32,22 +32,61 @@ export default async function AdminPage() {
     redirect("/login");
   }
 
-  const vendedores = await prisma.seller.findMany({
-    where: {
-      companyId: user.companyId,
-    },
-    select: {
-      id: true,
-      displayName: true,
-      jobTitle: true,
-      photoUrl: true,
-      slug: true,
-      isActive: true,
-    },
-    orderBy: {
-      displayName: "asc",
-    },
-  });
+    const vendedores = await prisma.seller.findMany({
+      where: {
+        companyId: user.companyId,
+      },
+      select: {
+        id: true,
+        displayName: true,
+        jobTitle: true,
+        photoUrl: true,
+        slug: true,
+        isActive: true,
+        cardEvents: {
+          select: {
+            type: true,
+            visitorId: true,
+          },
+        },
+      },
+      orderBy: {
+        displayName: "asc",
+      },
+    });
+
+      const vendedoresConEstadisticas = vendedores.map((vendedor) => {
+        const visitas = vendedor.cardEvents.filter(
+          (evento) =>
+            evento.type === "VISIT" || evento.type === "QR_VISIT"
+        );
+
+        const visitasQR = vendedor.cardEvents.filter(
+          (evento) => evento.type === "QR_VISIT"
+        );
+
+        const compartidos = vendedor.cardEvents.filter(
+          (evento) => evento.type === "SHARE"
+        );
+
+        const visitantesUnicos = new Set(
+          visitas
+            .map((evento) => evento.visitorId)
+            .filter((id): id is string => Boolean(id))
+        ).size;
+
+        return {
+          ...vendedor,
+          estadisticas: {
+            visitas: visitas.length,
+            visitasQR: visitasQR.length,
+            compartidos: compartidos.length,
+            visitantesUnicos,
+          },
+        };
+      });
+
+
 
   return (
     <main className="min-h-screen bg-slate-100 p-4 text-slate-900 sm:p-8">
@@ -97,17 +136,21 @@ export default async function AdminPage() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[750px] text-left text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500">
-                    <th className="px-3 py-3 font-medium">Vendedor</th>
-                    <th className="px-3 py-3 font-medium">Puesto</th>
-                    <th className="px-3 py-3 font-medium">Estado</th>
-                    <th className="px-3 py-3 font-medium">Tarjeta</th>
-                    <th className="px-3 py-3 font-medium">Acciones</th>
-                  </tr>
+                <tr className="border-b border-slate-200 text-slate-500">
+                  <th className="px-3 py-3 font-medium">Vendedor</th>
+                  <th className="px-3 py-3 font-medium">Puesto</th>
+                  <th className="px-3 py-3 font-medium">Estado</th>
+                  <th className="px-3 py-3 font-medium">Visitas</th>
+                  <th className="px-3 py-3 font-medium">Por QR</th>
+                  <th className="px-3 py-3 font-medium">Compartidos</th>
+                  <th className="px-3 py-3 font-medium">Visitantes únicos</th>
+                  <th className="px-3 py-3 font-medium">Tarjeta</th>
+                  <th className="px-3 py-3 font-medium">Acciones</th>
+                </tr>
                 </thead>
 
                 <tbody>
-                  {vendedores.map((vendedor) => (
+                  {vendedoresConEstadisticas.map((vendedor) => (
                     <tr
                       key={vendedor.id}
                       className="border-b border-slate-100 last:border-0"
@@ -153,6 +196,22 @@ export default async function AdminPage() {
                         </span>
                       </td>
 
+                      <td className="px-4 py-4 font-semibold tabular-nums text-slate-900">
+                        {vendedor.estadisticas.visitas}
+                      </td>
+
+                      <td className="px-4 py-4 tabular-nums text-slate-700">
+                        {vendedor.estadisticas.visitasQR}
+                      </td>
+
+                      <td className="px-4 py-4 tabular-nums text-slate-700">
+                        {vendedor.estadisticas.compartidos}
+                      </td>
+
+                      <td className="px-4 py-4 tabular-nums text-slate-700">
+                        {vendedor.estadisticas.visitantesUnicos}
+                      </td>
+
                       <td className="px-3 py-4">
                         <Link
                           href={`/tarjeta/${vendedor.slug}`}
@@ -163,13 +222,13 @@ export default async function AdminPage() {
                         </Link>
                       </td>
 
-                      <td className="px-3 py-4">
+                      <td className="px-4 py-4">
                         <AccionesVendedor
                           id={vendedor.id}
                           nombre={vendedor.displayName}
                           isActive={vendedor.isActive}
                         />
-                      </td>
+                     </td>
                     </tr>
                   ))}
                 </tbody>
@@ -177,6 +236,12 @@ export default async function AdminPage() {
             </div>
           )}
         </section>
+        <p className="mt-4 text-xs text-slate-500">
+          Las estadísticas se actualizan al recargar el panel. Los visitantes
+          únicos se estiman mediante un identificador guardado en el navegador;
+          si una persona cambia de dispositivo o borra sus datos, puede
+          contabilizarse de nuevo.
+        </p>
       </div>
     </main>
   );

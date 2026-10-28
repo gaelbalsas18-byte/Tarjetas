@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -18,7 +17,9 @@ export default function CodigoQR({ color }: Props) {
     setImagenQR("");
     setError("");
 
-    const direccion = window.location.href;
+    const url = new URL(window.location.href);
+      url.searchParams.set("origen", "qr");
+      const direccion = url.toString();
 
     QRCode.toDataURL(direccion, {
       width: 320,

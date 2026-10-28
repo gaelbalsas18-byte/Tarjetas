@@ -263,6 +263,7 @@ export type SellerWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Seller"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Seller"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  cardEvents?: Prisma.CardEventListRelationFilter
 }
 
 export type SellerOrderByWithRelationInput = {
@@ -282,6 +283,7 @@ export type SellerOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
+  cardEvents?: Prisma.CardEventOrderByRelationAggregateInput
 }
 
 export type SellerWhereUniqueInput = Prisma.AtLeast<{
@@ -304,6 +306,7 @@ export type SellerWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Seller"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Seller"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  cardEvents?: Prisma.CardEventListRelationFilter
 }, "id" | "slug">
 
 export type SellerOrderByWithAggregationInput = {
@@ -364,6 +367,7 @@ export type SellerCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutSellersInput
+  cardEvents?: Prisma.CardEventCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUncheckedCreateInput = {
@@ -382,6 +386,7 @@ export type SellerUncheckedCreateInput = {
   companyId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  cardEvents?: Prisma.CardEventUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUpdateInput = {
@@ -400,6 +405,7 @@ export type SellerUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutSellersNestedInput
+  cardEvents?: Prisma.CardEventUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerUncheckedUpdateInput = {
@@ -418,6 +424,7 @@ export type SellerUncheckedUpdateInput = {
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cardEvents?: Prisma.CardEventUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerCreateManyInput = {
@@ -537,6 +544,11 @@ export type SellerMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type SellerScalarRelationFilter = {
+  is?: Prisma.SellerWhereInput
+  isNot?: Prisma.SellerWhereInput
+}
+
 export type SellerCreateNestedManyWithoutCompanyInput = {
   create?: Prisma.XOR<Prisma.SellerCreateWithoutCompanyInput, Prisma.SellerUncheckedCreateWithoutCompanyInput> | Prisma.SellerCreateWithoutCompanyInput[] | Prisma.SellerUncheckedCreateWithoutCompanyInput[]
   connectOrCreate?: Prisma.SellerCreateOrConnectWithoutCompanyInput | Prisma.SellerCreateOrConnectWithoutCompanyInput[]
@@ -579,6 +591,20 @@ export type SellerUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.SellerScalarWhereInput | Prisma.SellerScalarWhereInput[]
 }
 
+export type SellerCreateNestedOneWithoutCardEventsInput = {
+  create?: Prisma.XOR<Prisma.SellerCreateWithoutCardEventsInput, Prisma.SellerUncheckedCreateWithoutCardEventsInput>
+  connectOrCreate?: Prisma.SellerCreateOrConnectWithoutCardEventsInput
+  connect?: Prisma.SellerWhereUniqueInput
+}
+
+export type SellerUpdateOneRequiredWithoutCardEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.SellerCreateWithoutCardEventsInput, Prisma.SellerUncheckedCreateWithoutCardEventsInput>
+  connectOrCreate?: Prisma.SellerCreateOrConnectWithoutCardEventsInput
+  upsert?: Prisma.SellerUpsertWithoutCardEventsInput
+  connect?: Prisma.SellerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SellerUpdateToOneWithWhereWithoutCardEventsInput, Prisma.SellerUpdateWithoutCardEventsInput>, Prisma.SellerUncheckedUpdateWithoutCardEventsInput>
+}
+
 export type SellerCreateWithoutCompanyInput = {
   id?: string
   firstName: string
@@ -594,6 +620,7 @@ export type SellerCreateWithoutCompanyInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  cardEvents?: Prisma.CardEventCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUncheckedCreateWithoutCompanyInput = {
@@ -611,6 +638,7 @@ export type SellerUncheckedCreateWithoutCompanyInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  cardEvents?: Prisma.CardEventUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type SellerCreateOrConnectWithoutCompanyInput = {
@@ -660,6 +688,94 @@ export type SellerScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Seller"> | Date | string
 }
 
+export type SellerCreateWithoutCardEventsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  displayName: string
+  jobTitle?: string | null
+  department?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsapp?: string | null
+  photoUrl?: string | null
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutSellersInput
+}
+
+export type SellerUncheckedCreateWithoutCardEventsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  displayName: string
+  jobTitle?: string | null
+  department?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsapp?: string | null
+  photoUrl?: string | null
+  slug: string
+  isActive?: boolean
+  companyId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SellerCreateOrConnectWithoutCardEventsInput = {
+  where: Prisma.SellerWhereUniqueInput
+  create: Prisma.XOR<Prisma.SellerCreateWithoutCardEventsInput, Prisma.SellerUncheckedCreateWithoutCardEventsInput>
+}
+
+export type SellerUpsertWithoutCardEventsInput = {
+  update: Prisma.XOR<Prisma.SellerUpdateWithoutCardEventsInput, Prisma.SellerUncheckedUpdateWithoutCardEventsInput>
+  create: Prisma.XOR<Prisma.SellerCreateWithoutCardEventsInput, Prisma.SellerUncheckedCreateWithoutCardEventsInput>
+  where?: Prisma.SellerWhereInput
+}
+
+export type SellerUpdateToOneWithWhereWithoutCardEventsInput = {
+  where?: Prisma.SellerWhereInput
+  data: Prisma.XOR<Prisma.SellerUpdateWithoutCardEventsInput, Prisma.SellerUncheckedUpdateWithoutCardEventsInput>
+}
+
+export type SellerUpdateWithoutCardEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutSellersNestedInput
+}
+
+export type SellerUncheckedUpdateWithoutCardEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  jobTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsapp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type SellerCreateManyCompanyInput = {
   id?: string
   firstName: string
@@ -692,6 +808,7 @@ export type SellerUpdateWithoutCompanyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cardEvents?: Prisma.CardEventUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerUncheckedUpdateWithoutCompanyInput = {
@@ -709,6 +826,7 @@ export type SellerUncheckedUpdateWithoutCompanyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cardEvents?: Prisma.CardEventUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerUncheckedUpdateManyWithoutCompanyInput = {
@@ -729,6 +847,35 @@ export type SellerUncheckedUpdateManyWithoutCompanyInput = {
 }
 
 
+/**
+ * Count Type SellerCountOutputType
+ */
+
+export type SellerCountOutputType = {
+  cardEvents: number
+}
+
+export type SellerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cardEvents?: boolean | SellerCountOutputTypeCountCardEventsArgs
+}
+
+/**
+ * SellerCountOutputType without action
+ */
+export type SellerCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SellerCountOutputType
+   */
+  select?: Prisma.SellerCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SellerCountOutputType without action
+ */
+export type SellerCountOutputTypeCountCardEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardEventWhereInput
+}
+
 
 export type SellerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -747,6 +894,8 @@ export type SellerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  cardEvents?: boolean | Prisma.Seller$cardEventsArgs<ExtArgs>
+  _count?: boolean | Prisma.SellerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seller"]>
 
 export type SellerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -808,6 +957,8 @@ export type SellerSelectScalar = {
 export type SellerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "displayName" | "jobTitle" | "department" | "email" | "phone" | "whatsapp" | "photoUrl" | "slug" | "isActive" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["seller"]>
 export type SellerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  cardEvents?: boolean | Prisma.Seller$cardEventsArgs<ExtArgs>
+  _count?: boolean | Prisma.SellerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SellerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -820,6 +971,7 @@ export type $SellerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Seller"
   objects: {
     company: Prisma.$CompanyPayload<ExtArgs>
+    cardEvents: Prisma.$CardEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1232,6 +1384,7 @@ readonly fields: SellerFieldRefs;
 export interface Prisma__SellerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  cardEvents<T extends Prisma.Seller$cardEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Seller$cardEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1674,6 +1827,30 @@ export type SellerDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Sellers to delete.
    */
   limit?: number
+}
+
+/**
+ * Seller.cardEvents
+ */
+export type Seller$cardEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CardEvent
+   */
+  select?: Prisma.CardEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CardEvent
+   */
+  omit?: Prisma.CardEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardEventInclude<ExtArgs> | null
+  where?: Prisma.CardEventWhereInput
+  orderBy?: Prisma.CardEventOrderByWithRelationInput | Prisma.CardEventOrderByWithRelationInput[]
+  cursor?: Prisma.CardEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardEventScalarFieldEnum | Prisma.CardEventScalarFieldEnum[]
 }
 
 /**

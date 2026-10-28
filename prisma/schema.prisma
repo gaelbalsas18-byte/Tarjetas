@@ -61,6 +61,25 @@ model Seller {
   updatedAt   DateTime @updatedAt
 
   company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-
+  cardEvents CardEvent[]
   @@index([companyId])
 }
+
+enum CardEventType {
+  VISIT
+  QR_VISIT
+  SHARE
+}
+
+model CardEvent {
+  id         String         @id @default(cuid())
+  type       CardEventType
+  visitorId  String?
+  createdAt  DateTime       @default(now())
+  sellerId   String
+  seller     Seller         @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+
+  @@index([sellerId, type, createdAt])
+  @@index([sellerId, visitorId])
+}
+

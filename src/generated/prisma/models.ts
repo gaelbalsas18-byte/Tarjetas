@@ -11,4 +11,5 @@
 export type * from './models/Company'
 export type * from './models/User'
 export type * from './models/Seller'
+export type * from './models/CardEvent'
 export type * from './commonInputTypes'

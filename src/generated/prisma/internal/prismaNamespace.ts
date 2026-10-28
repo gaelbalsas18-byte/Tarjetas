@@ -399,7 +399,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Company: 'Company',
   User: 'User',
-  Seller: 'Seller'
+  Seller: 'Seller',
+  CardEvent: 'CardEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "company" | "user" | "seller"
+    modelProps: "company" | "user" | "seller" | "cardEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -641,6 +642,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CardEvent: {
+      payload: Prisma.$CardEventPayload<ExtArgs>
+      fields: Prisma.CardEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>
+        }
+        findFirst: {
+          args: Prisma.CardEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>
+        }
+        findMany: {
+          args: Prisma.CardEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>[]
+        }
+        create: {
+          args: Prisma.CardEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>
+        }
+        createMany: {
+          args: Prisma.CardEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>[]
+        }
+        delete: {
+          args: Prisma.CardEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>
+        }
+        update: {
+          args: Prisma.CardEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.CardEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.CardEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardEventPayload>
+        }
+        aggregate: {
+          args: Prisma.CardEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCardEvent>
+        }
+        groupBy: {
+          args: Prisma.CardEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardEventCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -731,6 +806,17 @@ export const SellerScalarFieldEnum = {
 export type SellerScalarFieldEnum = (typeof SellerScalarFieldEnum)[keyof typeof SellerScalarFieldEnum]
 
 
+export const CardEventScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  visitorId: 'visitorId',
+  createdAt: 'createdAt',
+  sellerId: 'sellerId'
+} as const
+
+export type CardEventScalarFieldEnum = (typeof CardEventScalarFieldEnum)[keyof typeof CardEventScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -807,6 +893,20 @@ export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'CardEventType'
+ */
+export type EnumCardEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CardEventType'>
+    
+
+
+/**
+ * Reference to a field of type 'CardEventType[]'
+ */
+export type ListEnumCardEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CardEventType[]'>
     
 
 
@@ -977,6 +1077,7 @@ export type GlobalOmitConfig = {
   company?: Prisma.CompanyOmit
   user?: Prisma.UserOmit
   seller?: Prisma.SellerOmit
+  cardEvent?: Prisma.CardEventOmit
 }
 
 /* Types for Logging */

@@ -140,6 +140,23 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
+export type EnumCardEventTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.CardEventType | Prisma.EnumCardEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCardEventTypeFilter<$PrismaModel> | $Enums.CardEventType
+}
+
+export type EnumCardEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CardEventType | Prisma.EnumCardEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCardEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.CardEventType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCardEventTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCardEventTypeFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -277,6 +294,23 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type NestedEnumCardEventTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.CardEventType | Prisma.EnumCardEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCardEventTypeFilter<$PrismaModel> | $Enums.CardEventType
+}
+
+export type NestedEnumCardEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CardEventType | Prisma.EnumCardEventTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CardEventType[] | Prisma.ListEnumCardEventTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCardEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.CardEventType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCardEventTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCardEventTypeFilter<$PrismaModel>
 }
 
 

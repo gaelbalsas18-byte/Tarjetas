@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -5,8 +6,43 @@ import { useState } from "react";
 export default function AccionesTarjeta() {
   const [mensaje, setMensaje] = useState("");
   const [mostrarAyuda, setMostrarAyuda] = useState(false);
+
   async function compartirTarjeta() {
-  const url = window.location.href;
+    const direccion = new URL(window.location.href);
+
+    // El enlace compartido no debe conservar el origen del QR.
+    direccion.searchParams.delete("origen");
+
+    const url = direccion.toString();
+
+    // Registrar el clic en compartir sin bloquear la acción.
+    try {
+      const visitorId = localStorage.getItem("balsas_visitor_id");
+      const segmentos = window.location.pathname
+        .split("/")
+        .filter(Boolean);
+
+      const slug = segmentos[segmentos.length - 1];
+
+      if (slug) {
+        void fetch(
+          `/api/tarjeta/${encodeURIComponent(slug)}/evento`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              type: "SHARE",
+              visitorId: visitorId || undefined,
+            }),
+            keepalive: true,
+          }
+        ).catch(() => {});
+      }
+    } catch {
+      // Un error de estadísticas no debe impedir compartir.
+    }
 
     try {
       if (navigator.share) {
@@ -23,18 +59,24 @@ export default function AccionesTarjeta() {
       if (error instanceof Error && error.name === "AbortError") {
         return;
       }
-      setMensaje("No se pudo compartir. Copia el enlace desde el navegador.");
+
+      setMensaje(
+        "No se pudo compartir. Copia el enlace desde el navegador."
+      );
     }
   }
 
   async function copiarEnlace() {
-        try {
-        await navigator.clipboard.writeText(window.location.href);
-        setMensaje("Enlace copiado correctamente.");
-        } catch {
-        setMensaje("Abre el menú del navegador para copiar el enlace.");
-        }
+    try {
+      const direccion = new URL(window.location.href);
+      direccion.searchParams.delete("origen");
+
+      await navigator.clipboard.writeText(direccion.toString());
+      setMensaje("Enlace copiado correctamente.");
+    } catch {
+      setMensaje("Abre el menú del navegador para copiar el enlace.");
     }
+  }
 
   return (
     <div className="mt-6 space-y-3">
@@ -63,7 +105,7 @@ export default function AccionesTarjeta() {
             Guarda esta tarjeta en tu teléfono
           </h3>
 
-        <p className="mt-3 font-semibold">iPhone (Safari)</p>
+          <p className="mt-3 font-semibold">iPhone (Safari)</p>
           <p className="mt-1">
             1. Pulsa el botón Compartir del navegador.
             <br />
@@ -72,16 +114,17 @@ export default function AccionesTarjeta() {
             3. Pulsa “Añadir”.
           </p>
 
-        <p className="mt-3 font-semibold">Android (Chrome)</p>
+          <p className="mt-3 font-semibold">Android (Chrome)</p>
           <p className="mt-1">
             1. Abre el menú de los tres puntos del navegador.
             <br />
-            2. Selecciona “Añadir a pantalla de inicio” o “Instalar aplicación”, si aparece.
+            2. Selecciona “Añadir a pantalla de inicio” o “Instalar
+            aplicación”, si aparece.
             <br />
             3. Confirma la acción.
           </p>
 
-        <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-3 text-xs text-slate-500">
             Las opciones pueden variar según el navegador y el teléfono.
             Añade esta tarjeta desde su propia página para conservar el
             enlace del vendedor.

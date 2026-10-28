@@ -32,3 +32,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type Seller = Prisma.SellerModel
+/**
+ * Model CardEvent
+ * 
+ */
+export type CardEvent = Prisma.CardEventModel

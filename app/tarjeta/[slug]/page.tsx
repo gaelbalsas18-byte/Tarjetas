@@ -7,6 +7,8 @@ import { prisma } from "@/lib/prisma";
 import CodigoQR from "./CodigoQR";
 import AccionesTarjeta from "./AccionesTarjeta";
 import TarjetaDosCaras from "./TarjetaDosCaras";
+import RegistroVisita from "./RegistroVisita";
+
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -114,8 +116,10 @@ export default async function TarjetaPage({ params }: Props) {
     : "#163B65";
 
   return (
-    <TarjetaDosCaras>
+    
+    <TarjetaDosCaras> 
       <section className="overflow-hidden rounded-2xl bg-white">
+        <RegistroVisita slug={slug} />
         {/* Encabezado y datos del vendedor */}
         <div className="px-5 pt-5">
           <div className="grid grid-cols-[76px_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-5">
