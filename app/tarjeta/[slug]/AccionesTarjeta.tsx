@@ -10,8 +10,11 @@ export default function AccionesTarjeta() {
   async function compartirTarjeta() {
     const direccion = new URL(window.location.href);
 
-    // El enlace compartido no debe conservar el origen del QR.
+    // Evitar conservar parámetros de origen anteriores.
     direccion.searchParams.delete("origen");
+
+    // Identificar las visitas que llegan desde un enlace compartido.
+    direccion.searchParams.set("origen", "compartido");
 
     const url = direccion.toString();
 

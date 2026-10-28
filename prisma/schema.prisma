@@ -69,6 +69,7 @@ enum CardEventType {
   VISIT
   QR_VISIT
   SHARE
+  SHARED_VISIT
 }
 
 model CardEvent {

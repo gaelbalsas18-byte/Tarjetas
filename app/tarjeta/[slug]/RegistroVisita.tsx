@@ -32,12 +32,16 @@ export default function RegistroVisita({ slug }: Props) {
     enviado.current = true;
 
     const visitorId = obtenerVisitorId();
-
     const url = new URL(window.location.href);
-    const type =
-      url.searchParams.get("origen") === "qr"
-        ? "QR_VISIT"
-        : "VISIT";
+    const origen = url.searchParams.get("origen");
+
+    let type: "VISIT" | "QR_VISIT" | "SHARED_VISIT" = "VISIT";
+
+    if (origen === "qr") {
+      type = "QR_VISIT";
+    } else if (origen === "compartido") {
+      type = "SHARED_VISIT";
+    }
 
     fetch(`/api/tarjeta/${encodeURIComponent(slug)}/evento`, {
       method: "POST",
@@ -50,7 +54,7 @@ export default function RegistroVisita({ slug }: Props) {
       }),
       keepalive: true,
     }).catch(() => {
-      // Un error de estadísticas no debe afectar la tarjeta.
+      // Las estadísticas nunca deben impedir que se use la tarjeta.
     });
   }, [slug]);
 

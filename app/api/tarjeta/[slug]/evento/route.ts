@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-const TIPOS_EVENTO = ["VISIT", "QR_VISIT", "SHARE"] as const;
+const TIPOS_EVENTO = [
+  "VISIT",
+  "QR_VISIT",
+  "SHARE",
+  "SHARED_VISIT",
+] as const;
 
 type TipoEvento = (typeof TIPOS_EVENTO)[number];
 

@@ -20,7 +20,8 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 export const CardEventType = {
   VISIT: 'VISIT',
   QR_VISIT: 'QR_VISIT',
-  SHARE: 'SHARE'
+  SHARE: 'SHARE',
+  SHARED_VISIT: 'SHARED_VISIT'
 } as const
 
 export type CardEventType = (typeof CardEventType)[keyof typeof CardEventType]

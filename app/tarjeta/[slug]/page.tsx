@@ -105,6 +105,47 @@ export default async function TarjetaPage({ params }: Props) {
     notFound();
   }
 
+      const aperturasCompartidas = await prisma.cardEvent.count({
+      where: {
+        seller: {
+          slug,
+          isActive: true,
+        },
+        type: "SHARED_VISIT",
+      },
+    });
+
+    const estrellas = (() => {
+      const metasBlancas = [5, 10, 20, 40, 80];
+
+      if (aperturasCompartidas < 160) {
+        let cantidad = 0;
+
+        for (const meta of metasBlancas) {
+          if (aperturasCompartidas >= meta) {
+            cantidad++;
+          }
+        }
+
+        return {
+          cantidad,
+          color: "#FFFFFF",
+          categoria: "blanca" as const,
+        };
+      }
+
+      const cantidad = Math.min(
+        5,
+        Math.floor(Math.log2(aperturasCompartidas / 160)) + 1
+      );
+
+      return {
+        cantidad,
+        color: "#FFD700",
+        categoria: "dorada" as const,
+      };
+    })();
+
   const telefono = vendedor.phone?.replace(/[^\d+]/g, "");
   const whatsapp = vendedor.whatsapp?.replace(/\D/g, "");
 
@@ -159,6 +200,33 @@ export default async function TarjetaPage({ params }: Props) {
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400">
                 {vendedor.company.name}
               </p>
+
+              {estrellas.cantidad > 0 && (
+                  <div
+                    className="mt-2 flex items-center justify-center gap-1"
+                    role="img"
+                    aria-label={`${estrellas.cantidad} estrellas ${
+                      estrellas.categoria === "dorada" ? "doradas" : "blancas"
+                    }`}
+                    title={`${aperturasCompartidas} aperturas desde enlaces compartidos`}
+                  >
+                    {Array.from({ length: estrellas.cantidad }, (_, i) => (
+                      <svg
+                        key={`${estrellas.categoria}-${i}`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="22"
+                        height="22"
+                        fill={estrellas.color}
+                        stroke={estrellas.categoria === "blanca" ? "#CBD5E1" : "#B8860B"}
+                        strokeWidth="0.8"
+                        aria-hidden="true"
+                      >
+                        <path d="m12 2.5 2.9 5.88 6.49.94-4.7 4.58 1.11 6.47L12 17.32l-5.8 3.05 1.11-6.47-4.7-4.58 6.49-.94L12 2.5Z" />
+                      </svg>
+                    ))}
+                  </div>
+                )}
             </div>
           </div>
         </div>
